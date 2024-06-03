@@ -1,10 +1,8 @@
-import Link from "./linkModel.js";
-import express from "express";
-// console.log('process.env.JWT_SECRET',process.env.JWT_SECRET)
-// const router = express.Router();
+import Link from "../models/linkModel.js";
+
 const LinkController = {
   redirect: async (req, res) => {
-    // const { id } = req.params;
+   
 
     try {
       // מצא את הקישור במסד הנתונים לפי ה-id שנשלח ב-request
@@ -35,17 +33,7 @@ const LinkController = {
       if (!link) {
         return res.status(404).json({ message: "Link not found" });
       }
-      //   const clicksBySource = {};
-      //   link.clicks.forEach((click) => {
-      //     if (!clicksBySource[click.targetParamValue]) {
-      //       clicksBySource[click.targetParamValue] = [];
-      //     }
-      //     clicksBySource[click.targetParamValue].push(click);
-      //   });
-      //   res.json(clicksBySource);
-      // } catch (e) {
-      //   res.status(400).json({ message: e.message });
-      // }
+    
       const clicksByTarget = link.clicks.reduce((acc, click) => {
         const target = click.targetParamValue || "unknown";
         if (!acc[target]) {
@@ -79,9 +67,9 @@ const LinkController = {
   },
 
   add: async (req, res) => {
-    const { originalUrl, clicks } = req.body;
+    const { originalUrl, clicks,targetValues } = req.body;
     try {
-      const newLink = await Link.create({ originalUrl, clicks }); // Add new link
+      const newLink = await Link.create({ originalUrl, clicks,targetValues }); // Add new link
       res.json(newLink);
     } catch (e) {
       res.status(400).json({ message: e.message });
@@ -90,11 +78,11 @@ const LinkController = {
 
   update: async (req, res) => {
     const { id } = req.params;
-    const { originalUrl, clicks } = req.body;
+    const { originalUrl, clicks,targetValues } = req.body;
     try {
       const updatedLink = await Link.findByIdAndUpdate(
         id,
-        { originalUrl, clicks },
+        { originalUrl, clicks,targetValues },
         { new: true }
       ); // Update link by ID
       res.json(updatedLink);

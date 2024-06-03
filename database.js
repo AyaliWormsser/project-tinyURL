@@ -1,8 +1,5 @@
 import mongoose from "mongoose";
 
-// Replace the uri string with your connection string.
-//const uri =
-//"mongodb+srv://<username>:<password>@<host>/<dbname>?retryWrites=true&w=majority";
 const uriLocal = "mongodb://localhost:27017/tinyUrl";
 
 const connectDB = async () => {

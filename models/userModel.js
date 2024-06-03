@@ -1,7 +1,5 @@
 
 import mongoose from "mongoose";
-import { LinkSchema } from "../links/linkModel.js";  // Adjust the import path according to your project structure
-
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -17,11 +15,10 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        default: "123456"
+        default: "123456",
+        unique: true 
     },
     links: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Link' }]
-    // links: Array
-    // [LinkSchema]  // Directly use LinkSchema
 });
 
 const User = mongoose.model("User", UserSchema);
